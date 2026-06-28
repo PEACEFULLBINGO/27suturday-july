@@ -1,0 +1,6 @@
+.flbl{font-size:var(--txs);font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--txm);margin-bottom:.35rem;display:block;}
+.field{width:100%;padding:.72rem .95rem;border-radius:var(--rmd);background:var(--sf2);
+  border:1px solid var(--bd);font-size:var(--tsm);color:var(--tx);transition:border-color var(--tf);}
+.field:focus{outline:none;border-color:var(--pr);}
+textarea.field{min-height:88px;resize:vertical;}
+select.field{cursor:pointer;}

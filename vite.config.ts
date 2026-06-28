@@ -8,7 +8,7 @@ import path from 'node:path';
 // the project's feature-first layout); build output goes to /dist at the
 // repo root, and /public is served as static assets (favicon, manifest, etc).
 export default defineConfig({
-  root: 'src',
+  root: '.',
   publicDir: path.resolve(__dirname, 'public'),
   base: './',
   plugins: [react()],
