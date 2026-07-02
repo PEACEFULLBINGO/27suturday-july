@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button } from '@/components/button/Button';
-import { FieldLabel, TextInput, Select } from '@/components/InputFeild/InputField';
+import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { Button } from '@/components/Button/Button';
+import { FieldLabel, TextInput, Select } from '@/components/InputField/InputField';
 import type { Subject, TaskTag } from '@/types';
 import { validateRequiredTitle, validateTimeRange } from '@/utils/validators';
 import { useToast } from '@/components/layout/Toast/ToastContext';
@@ -43,33 +43,33 @@ export function TaskForm({ onSave, onCancel }: TaskFormProps) {
             id="tTitle"
             placeholder="e.g. Science revision"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') submit(); }}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter') submit(); }}
           />
         </div>
         <div>
           <FieldLabel htmlFor="tStart">Start time</FieldLabel>
-          <TextInput id="tStart" type="time" value={start} onChange={(e) => setStart(e.target.value)} />
+          <TextInput id="tStart" type="time" value={start} onChange={(e: ChangeEvent<HTMLInputElement>) => setStart(e.target.value)} />
         </div>
         <div>
           <FieldLabel htmlFor="tEnd">End time</FieldLabel>
-          <TextInput id="tEnd" type="time" value={end} onChange={(e) => setEnd(e.target.value)} />
+          <TextInput id="tEnd" type="time" value={end} onChange={(e: ChangeEvent<HTMLInputElement>) => setEnd(e.target.value)} />
         </div>
         <div>
           <FieldLabel htmlFor="tTag">Category</FieldLabel>
-          <Select id="tTag" value={tag} onChange={(e) => setTag(e.target.value as TaskTag)}>
+          <Select id="tTag" value={tag} onChange={(e: ChangeEvent<HTMLSelectElement>) => setTag(e.target.value as TaskTag)}>
             {TAGS.map((t) => <option key={t}>{t}</option>)}
           </Select>
         </div>
         <div>
           <FieldLabel htmlFor="tSubj">Subject</FieldLabel>
-          <Select id="tSubj" value={subject} onChange={(e) => setSubject(e.target.value as Subject)}>
+          <Select id="tSubj" value={subject} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSubject(e.target.value as Subject)}>
             {SUBJECTS.map((s) => <option key={s}>{s}</option>)}
           </Select>
         </div>
         <div className="full">
           <FieldLabel htmlFor="tNote">Note (optional)</FieldLabel>
-          <TextInput id="tNote" placeholder="Any extra detail" value={note} onChange={(e) => setNote(e.target.value)} />
+          <TextInput id="tNote" placeholder="Any extra detail" value={note} onChange={(e: ChangeEvent<HTMLInputElement>) => setNote(e.target.value)} />
         </div>
       </div>
       <div className="fa">
