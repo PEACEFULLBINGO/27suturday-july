@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { A11yPanel } from '@/components/layout/A11yPanel/A11yPanel';
 import { AppStoreProvider, useAppStore } from '@/store/AppStore';
+import { describe, it, expect } from 'vitest';
 function StoreProbe() {
   const { state } = useAppStore();
   return (
