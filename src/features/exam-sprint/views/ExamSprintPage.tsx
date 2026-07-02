@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button } from '@/components/button/Button';
-import { FieldLabel, TextInput } from '@/components/InputFeild/InputField';
+import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { Button } from '@/components/Button/Button';
+import { FieldLabel, TextInput } from '@/components/InputField/InputField';
 import { useExam } from '../hooks/useExam';
 
 export function ExamSprintPage() {
@@ -34,11 +34,11 @@ export function ExamSprintPage() {
           <div className="fg2 mb4">
             <div>
               <FieldLabel htmlFor="examName">Exam name</FieldLabel>
-              <TextInput id="examName" placeholder="e.g. Physics Final" value={name} onChange={(e) => setName(e.target.value)} />
+              <TextInput id="examName" placeholder="e.g. Physics Final" value={name} onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
             </div>
             <div>
               <FieldLabel htmlFor="examDate">Date</FieldLabel>
-              <TextInput id="examDate" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <TextInput id="examDate" type="date" value={date} onChange={(e: ChangeEvent<HTMLInputElement>) => setDate(e.target.value)} />
             </div>
           </div>
           <Button variant="primary" size="sm" onClick={saveExam}>Save exam</Button>
@@ -72,8 +72,8 @@ export function ExamSprintPage() {
               <TextInput
                 placeholder="e.g. Thermodynamics ch. 4"
                 value={topicInput}
-                onChange={(e) => setTopicInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') submitTopic(); }}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setTopicInput(e.target.value)}
+                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter') submitTopic(); }}
               />
               <div className="fa">
                 <Button variant="ghost" size="sm" onClick={() => setShowTopicForm(false)}>Cancel</Button>
