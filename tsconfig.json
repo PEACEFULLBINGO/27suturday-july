@@ -6,6 +6,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "moduleDetection": "force",
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] }
   },

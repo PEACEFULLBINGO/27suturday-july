@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/button/Button';
-import { FieldLabel, TextInput, TextArea } from '@/components/InputFeild/InputField';
+import { FieldLabel, TextInput, TextArea } from '@/components/InputField/InputField';
 import { validateRequiredTitle } from '@/utils/validators';
 import { useToast } from '@/components/layout/Toast/ToastContext';
 

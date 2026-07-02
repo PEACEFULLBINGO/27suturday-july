@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Modal } from '@/components/layout/Modal/Modal';
 import { Button } from '@/components/button/Button';
-import { FieldLabel, TextInput, Select } from '@/components/InputFeild/InputField';
+import { FieldLabel, TextInput, Select } from '@/components/InputField/InputField';
 import type { Subject, Task, TaskTag } from '@/types';
 import { validateRequiredTitle, validateTimeRange } from '@/utils/validators';
 import { useToast } from '@/components/layout/Toast/ToastContext';
@@ -49,33 +49,33 @@ export function EditTaskModal({ task, onSave, onClose }: EditTaskModalProps) {
           <TextInput
             id="etTitle"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') submit(); }}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter') submit(); }}
           />
         </div>
         <div>
           <FieldLabel htmlFor="etStart">Start</FieldLabel>
-          <TextInput id="etStart" type="time" value={start} onChange={(e) => setStart(e.target.value)} />
+          <TextInput id="etStart" type="time" value={start} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStart(e.target.value)} />
         </div>
         <div>
           <FieldLabel htmlFor="etEnd">End</FieldLabel>
-          <TextInput id="etEnd" type="time" value={end} onChange={(e) => setEnd(e.target.value)} />
+          <TextInput id="etEnd" type="time" value={end} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEnd(e.target.value)} />
         </div>
         <div>
           <FieldLabel htmlFor="etTag">Category</FieldLabel>
-          <Select id="etTag" value={tag} onChange={(e) => setTag(e.target.value as TaskTag)}>
+          <Select id="etTag" value={tag} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTag(e.target.value as TaskTag)}>
             {TAGS.map((t) => <option key={t}>{t}</option>)}
           </Select>
         </div>
         <div>
           <FieldLabel htmlFor="etSubj">Subject</FieldLabel>
-          <Select id="etSubj" value={subject} onChange={(e) => setSubject(e.target.value as Subject)}>
+          <Select id="etSubj" value={subject} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSubject(e.target.value as Subject)}>
             {SUBJECTS.map((s) => <option key={s}>{s}</option>)}
           </Select>
         </div>
         <div className="full">
           <FieldLabel htmlFor="etNote">Note</FieldLabel>
-          <TextInput id="etNote" value={note} onChange={(e) => setNote(e.target.value)} />
+          <TextInput id="etNote" value={note} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNote(e.target.value)} />
         </div>
       </div>
       <div className="fa">

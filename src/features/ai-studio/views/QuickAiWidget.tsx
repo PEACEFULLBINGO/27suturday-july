@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/button/Button';
-import { TextArea } from '@/components/InputFeild/InputField';
+// Local lightweight Button fallback to avoid missing external module error
+type BtnProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: string;
+  size?: string;
+  className?: string;
+};
+
+const Button = ({ children, className = '', disabled, ...rest }: BtnProps) => (
+  <button className={`btn ${className}`} disabled={disabled} {...rest}>
+    {children}
+  </button>
+);
+import { TextArea } from '@/components/InputField/InputField';
 import { useCurDay } from '@/store/DayContext';
 import { useAppStore } from '@/store/AppStore';
 import { usePerfectDay } from '@/features/perfect-day/hooks/usePerfectDay';

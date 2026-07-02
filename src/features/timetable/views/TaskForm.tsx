@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/button/Button';
 import { FieldLabel, TextInput, Select } from '@/components/InputField/InputField';
 import type { Subject, TaskTag } from '@/types';
 import { validateRequiredTitle, validateTimeRange } from '@/utils/validators';

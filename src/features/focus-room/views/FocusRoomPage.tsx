@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/button/Button';
 import { useFocusTimer } from '../hooks/useFocusTimer';
 
 export function FocusRoomPage() {

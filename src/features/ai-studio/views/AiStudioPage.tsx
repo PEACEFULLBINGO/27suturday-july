@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/button/Button';
 import { TextArea } from '@/components/InputField/InputField';
 import { useCurDay } from '@/store/DayContext';
 import { usePerfectDay } from '@/features/perfect-day/hooks/usePerfectDay';

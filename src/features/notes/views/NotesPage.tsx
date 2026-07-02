@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/button/Button';
-import { TextInput } from '@/components/InputFeild/InputField';
+import { TextInput } from '@/components/InputField/InputField';
 import { useNotes } from '../hooks/useNotes';
 import { NoteForm } from './NoteForm';
 import { NoteCard } from './NoteCard';
@@ -29,7 +29,7 @@ export function NotesPage() {
             placeholder="Search by title or tag…"
             aria-label="Search notes"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
           />
           {showForm && (
             <NoteForm
