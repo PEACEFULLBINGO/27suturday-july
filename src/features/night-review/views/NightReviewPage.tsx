@@ -1,5 +1,6 @@
-import { Button } from '@/components/button/Button';
-import { FieldLabel, TextArea } from '@/components/InputFeild/InputField';
+import { useState, type ChangeEvent } from 'react';
+import { Button } from '@/components/Button/Button';
+import { FieldLabel, TextArea } from '@/components/InputField/InputField';
 import type { Mood } from '@/types';
 import { useNightReview } from '../hooks/useNightReview';
 import { ReviewCard } from './ReviewCard';
@@ -44,15 +45,15 @@ export function NightReviewPage() {
           <div className="fg2 mb4">
             <div className="full">
               <FieldLabel htmlFor="revWins">Wins today</FieldLabel>
-              <TextArea id="revWins" placeholder="What went well?" value={wins} onChange={(e) => setWins(e.target.value)} />
+              <TextArea id="revWins" placeholder="What went well?" value={wins} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setWins(e.target.value)} />
             </div>
             <div className="full">
               <FieldLabel htmlFor="revChal">Challenges</FieldLabel>
-              <TextArea id="revChal" placeholder="What was hard?" value={chal} onChange={(e) => setChal(e.target.value)} />
+              <TextArea id="revChal" placeholder="What was hard?" value={chal} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setChal(e.target.value)} />
             </div>
             <div className="full">
               <FieldLabel htmlFor="revPlan">Tomorrow's priority</FieldLabel>
-              <TextArea id="revPlan" placeholder="One focus for tomorrow" value={plan} onChange={(e) => setPlan(e.target.value)} />
+              <TextArea id="revPlan" placeholder="One focus for tomorrow" value={plan} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setPlan(e.target.value)} />
             </div>
           </div>
           <div className="fa"><Button variant="primary" onClick={save}>Save review ✓</Button></div>
