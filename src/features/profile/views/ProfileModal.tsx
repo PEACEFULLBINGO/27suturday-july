@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal } from '@/components/layout/Modal/Modal';
 import { Button } from '@/components/button/Button';
-import { FieldLabel, TextInput, Select } from '@/components/InputFeild/InputField';
+import { FieldLabel, TextInput, Select } from '@/components/InputField/InputField';
 import { useAppStore } from '@/store/AppStore';
 import { useToast } from '@/components/layout/Toast/ToastContext';
 

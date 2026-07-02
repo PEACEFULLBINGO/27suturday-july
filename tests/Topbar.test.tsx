@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Topbar } from '@/components/layout/Topbar/Topbar';
 import { AppStoreProvider } from '@/store/AppStore';
 import { ToastProvider } from '@/components/layout/Toast/ToastContext';
+import { describe, it, expect } from 'vitest';
 
 describe('Topbar', () => {
   it('renders the current page title and profile fallback', () => {

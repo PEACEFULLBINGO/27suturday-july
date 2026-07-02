@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/button/Button';
-import { TextInput } from '@/components/InputFeild/InputField';
+import { TextInput } from '@/components/InputField/InputField';
 import { useCurDay } from '@/store/DayContext';
 import { useTimetable } from '../hooks/useTimetable';
 import { DayTabs } from './DayTabs';
