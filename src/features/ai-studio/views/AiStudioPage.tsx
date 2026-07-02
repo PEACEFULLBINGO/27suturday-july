@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/button/Button';
-import { TextArea } from '@/components/InputFeild/InputField';
+import { useEffect, useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { Button } from '@/components/Button/Button';
+import { TextArea } from '@/components/InputField/InputField';
 import { useCurDay } from '@/store/DayContext';
 import { usePerfectDay } from '@/features/perfect-day/hooks/usePerfectDay';
 import { useChat } from '../hooks/useChat';
@@ -77,8 +77,8 @@ export function AiStudioPage() {
                 placeholder="Ask about study strategy, schedule, or perfect day tips… (Enter to send)"
                 aria-label="Chat input"
                 value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } }}
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDraft(e.target.value)}
+                onKeyDown={(e: KeyboardEvent<HTMLTextAreaElement>) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } }}
                 disabled={pending}
               />
               <Button variant="primary" aria-label="Send message" onClick={submit} disabled={pending}>Send</Button>
