@@ -1,85 +1,80 @@
-import { createContext, useContext, useEffect, useMemo, useReducer, type Dispatch, type ReactNode } from 'react';
-import { todayIso } from '@/utils/formatters';
-import type { AppStateShape, Settings } from '@/types';
+/* eslint-disable react/only-export-components */
+import React, { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import type { AppState } from '@/types';
+import { createDefaultState } from './defaultState';
+import { appReducer, type Action } from './reducer';
+import { loadLocal, saveLocal, localOnlySync, type CloudSync, type SyncStatus } from './persistence';
 
-export type FontSize = 'normal' | 'lg' | 'xl';
-
-export interface AppSettings extends Settings {}
-
-export interface AppState extends AppStateShape {}
-
-export type AppAction =
-  | { type: 'set_settings'; payload: Partial<AppSettings> }
-  | { type: 'claim_spark' }
-  | { type: 'import_state'; payload: AppStateShape };
-
-const initialState: AppState = {
-  settings: {
-    hc: false,
-    fz: 'normal',
-    theme: 'light',
-  },
-  profile: {
-    name: '',
-  },
-  sparkDate: null,
-};
-
-function reducer(state: AppState, action: AppAction): AppState {
-  switch (action.type) {
-    case 'set_settings':
-      return {
-        ...state,
-        settings: {
-          ...state.settings,
-          ...action.payload,
-        },
-      };
-    case 'claim_spark':
-      return {
-        ...state,
-        sparkDate: todayIso(),
-      };
-    case 'import_state':
-      return {
-        ...state,
-        ...action.payload,
-      };
-    default:
-      return state;
-  }
-}
-
-interface AppStoreContextValue {
+interface AppStoreValue {
   state: AppState;
-  dispatch: Dispatch<AppAction>;
-  syncStatus: 'synced' | 'syncing' | 'offline' | 'error';
+  dispatch: React.Dispatch<Action>;
+  syncStatus: SyncStatus;
   isOnline: boolean;
 }
 
-const AppStoreContext = createContext<AppStoreContextValue | undefined>(undefined);
+const AppStoreContext = createContext<AppStoreValue | null>(null);
 
-export function AppStoreProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const syncStatus: AppStoreContextValue['syncStatus'] = 'synced';
-  const isOnline = true;
+/**
+ * Swap this for a real adapter (Firebase, your own API, etc.) once a backend
+ * exists — see store/persistence.ts for the interface and an example.
+ */
+const cloudSync: CloudSync = localOnlySync;
+
+export function AppStoreProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(appReducer, undefined, () => ({
+    ...createDefaultState(),
+    ...(loadLocal() ?? {}),
+  }));
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>(navigator.onLine ? 'local' : 'offline');
+  const hasHydratedFromCloud = useRef(false);
+
+  // One-time pull from the cloud adapter on mount (no-op with the local-only adapter).
+  useEffect(() => {
+    if (hasHydratedFromCloud.current) return;
+    hasHydratedFromCloud.current = true;
+    (async () => {
+      if (!navigator.onLine) return;
+      const remote = await cloudSync.pull();
+      if (remote) dispatch({ type: 'hydrate', payload: remote });
+    })();
+  }, []);
+
+  // Persist on every state change: localStorage always, cloud adapter when online.
+  useEffect(() => {
+    saveLocal(state);
+    if (!isOnline) {
+      setSyncStatus('offline');
+      return;
+    }
+    setSyncStatus('syncing');
+    let cancelled = false;
+    cloudSync.push(state).then(
+      () => { if (!cancelled) setSyncStatus('synced'); },
+      () => { if (!cancelled) setSyncStatus('error'); },
+    );
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, isOnline]);
 
   useEffect(() => {
-    document.body.dataset.hc = String(state.settings.hc);
-    document.body.dataset.fz = state.settings.fz;
-    document.body.dataset.theme = state.settings.theme;
-  }, [state.settings.hc, state.settings.fz, state.settings.theme]);
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => { setIsOnline(false); setSyncStatus('offline'); };
+    window.addEventListener('online', goOnline);
+    window.addEventListener('offline', goOffline);
+    return () => {
+      window.removeEventListener('online', goOnline);
+      window.removeEventListener('offline', goOffline);
+    };
+  }, []);
 
   const value = useMemo(() => ({ state, dispatch, syncStatus, isOnline }), [state, syncStatus, isOnline]);
-
   return <AppStoreContext.Provider value={value}>{children}</AppStoreContext.Provider>;
 }
 
-export function useAppStore() {
-  const context = useContext(AppStoreContext);
-  if (!context) {
-    throw new Error('useAppStore must be used within an AppStoreProvider');
-  }
-
-  return context;
+// eslint-disable-next-line react/only-export-components
+export function useAppStore(): AppStoreValue {
+  const ctx = useContext(AppStoreContext);
+  if (!ctx) throw new Error('useAppStore must be used within an AppStoreProvider');
+  return ctx;
 }

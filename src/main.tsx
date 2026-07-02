@@ -1,31 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './assets/fonts/styles/global.css';
-import { AppStoreProvider } from './store/AppStore';
-import { DayContextProvider } from './store/DayContext';
-import { ToastProvider } from './components/layout/Toast/ToastContext';
-import { A11yPanel } from './layout/A11yPanel/A11yPanel';
-import { Sidebar } from './layout/Sidebar/Sidebar';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './assets/styles/tokens.css';
+import './assets/styles/global.css';
 
-function App() {
-  return (
-    <AppStoreProvider>
-      <DayContextProvider>
-        <ToastProvider>
-          <main>
-            <Sidebar mobileOpen={false} onNavigate={() => {}} />
-            <A11yPanel />
-            <h1>StudyFlow Orbit</h1>
-            <p>Application shell is ready.</p>
-          </main>
-        </ToastProvider>
-      </DayContextProvider>
-    </AppStoreProvider>
-  );
-}
+const rootEl = document.getElementById('root');
+if (!rootEl) throw new Error('Root element #root not found');
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+createRoot(rootEl).render(
+  <StrictMode>
     <App />
-  </React.StrictMode>,
+  </StrictMode>,
 );

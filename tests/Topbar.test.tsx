@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { Topbar } from '../src/layout/Topbar/Topbar';
-import { AppStoreProvider } from '../src/store/AppStore';
-import { ToastProvider } from '../src/components/layout/Toast/ToastContext';
+import { Topbar } from '@/components/layout/Topbar/Topbar';
+import { AppStoreProvider } from '@/store/AppStore';
+import { ToastProvider } from '@/components/layout/Toast/ToastContext';
 
 describe('Topbar', () => {
   it('renders the current page title and profile fallback', () => {

@@ -1,17 +1,24 @@
-import { createContext, useContext, type ReactNode } from 'react';
-import { todayIso } from '@/utils/formatters';
+/* eslint-disable react/only-export-components */
+import React, { createContext, useContext, useState } from 'react';
+import type { Weekday } from '@/types';
+import { DAYS } from '@/types';
+import { weekdayFromDate } from '@/utils/formatters';
 
 interface DayContextValue {
-  curDay: string;
+  curDay: Weekday;
+  setCurDay: (day: Weekday) => void;
 }
 
-const DayContext = createContext<DayContextValue | undefined>(undefined);
+const DayContext = createContext<DayContextValue | null>(null);
 
-export function DayContextProvider({ children, curDay = todayIso() }: { children: ReactNode; curDay?: string }) {
-  return <DayContext.Provider value={{ curDay }}>{children}</DayContext.Provider>;
+export function DayProvider({ children }: { children: React.ReactNode }) {
+  const [curDay, setCurDay] = useState<Weekday>(DAYS[weekdayFromDate(new Date())]);
+  return <DayContext.Provider value={{ curDay, setCurDay }}>{children}</DayContext.Provider>;
 }
 
-export function useCurDay() {
-  const context = useContext(DayContext);
-  return context ?? { curDay: todayIso() };
+// eslint-disable-next-line react/only-export-components
+export function useCurDay(): DayContextValue {
+  const ctx = useContext(DayContext);
+  if (!ctx) throw new Error('useCurDay must be used within a DayProvider');
+  return ctx;
 }
